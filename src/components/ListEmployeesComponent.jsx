@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import { listEmployees } from '../service/EmployeeService';
+import { useNavigate } from 'react-router-dom';
 
 const ListEmployeesComponent = () => {
 
     const [employees,setEmployees] = useState([]);
+    const navigate = useNavigate();
 
     useEffect(() => {
         listEmployees()
@@ -13,6 +15,8 @@ const ListEmployeesComponent = () => {
         .catch(err => console.log(err));
     },[employees])
 
+    const addEmployee = () => navigate("/add-employee")
+    const updateEmployee = (id) => navigate(`/edit-employee/${id}`);
   return (
     <>
     <div className="container mt-5">
@@ -20,7 +24,7 @@ const ListEmployeesComponent = () => {
             <div className="card-header">
                 List Employees
             </div>
-            <a className='btn btn-primary' href='/add-employee'>Add Employee</a>
+            <button className='btn btn-primary' onClick={addEmployee}>Add Employee</button>
             <table className='table table-striped'>
             <thead>
                 <tr>
@@ -28,6 +32,7 @@ const ListEmployeesComponent = () => {
                     <th>First Name</th>
                     <th>Last Name</th>
                     <th>Email</th>
+                    <th>Action</th>
                 </tr>
             </thead>
             <tbody>
@@ -38,6 +43,9 @@ const ListEmployeesComponent = () => {
                             <td>{e.first_name}</td>
                             <td>{e.last_name}</td>
                             <td>{e.email}</td>
+                            <th>
+                                <button onClick={() => updateEmployee(e.id)} className='btn btn-info'>Update</button>
+                            </th>
                         </tr>
                     ))
                 }
