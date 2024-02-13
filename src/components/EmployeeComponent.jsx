@@ -11,7 +11,7 @@ const EmployeeComponent = () => {
   const [errors, setErrors] = useState({
     firstName: "",
     lastName: "",
-    email: "",
+    email: ""
   });
 
   useEffect(() => {
