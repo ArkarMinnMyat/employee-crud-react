@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { createEmployee, getEmployee } from "../service/EmployeeService";
+import { createEmployee, getEmployee, updateEmployee } from "../service/EmployeeService";
 import { useNavigate, useParams } from "react-router-dom";
 
 const EmployeeComponent = () => {
@@ -37,12 +37,23 @@ const EmployeeComponent = () => {
         last_name: lastName,
         email: email,
       };
-      createEmployee(employee)
+
+      if(id){
+        updateEmployee(id,employee)
+        .then((response) => {
+          console.log(response.data);
+          navigate('/employees')
+        })
+        .catch(err => console.log(err));
+      }
+      else{
+        createEmployee(employee)
         .then((response) => {
           console.log(response.data);
           navigate("/employees");
         })
         .catch((err) => console.log(err));
+      }
     }
   };
   function validateForm() {
@@ -133,7 +144,7 @@ const EmployeeComponent = () => {
                 )}
               </div>
               <button onClick={saveEmployee} className="btn btn-success w-100 py-2">
-                Submit
+                {id ? "Update" : "Save"}
               </button>
             </form>
           </div>
